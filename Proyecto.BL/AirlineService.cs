@@ -1,40 +1,29 @@
-﻿using ProyectoTAP.DataAccess;
-using ProyectoTAP.Model;
+﻿using ProyectoTAP.Model;
 
-namespace ProyectoTAP.BusinessLogic
+namespace Proyecto.BL
 {
-    public class AirlineService
+    public class AirlineService : IAirlineService
     {
-        private readonly AirlineRepository _airlineRepository;
+        private readonly IAirlineRepository _airlineRepository;
 
-        public AirlineService()
+        public AirlineService(IAirlineRepository airlineRepository)
         {
-            _airlineRepository = new AirlineRepository(); // Instancia de acceso a datos
+            _airlineRepository = airlineRepository;
         }
 
         // Obtener todas las aerolíneas
-        public List<Airline> GetAllAirlines()
-        {
-            return _airlineRepository.GetAllAirlines();
-        }
+        public List<Airline> GetAllAirlines() => _airlineRepository.GetAllAirlines();
 
         // Obtener aerolínea por Id
-        public Airline GetAirlineById(int id)
-        {
-            return _airlineRepository.GetAirlineById(id);
-        }
+        public Airline? GetAirlineById(int id) => _airlineRepository.GetAirlineById(id);
 
         // Agregar una nueva aerolínea
         public string AddAirline(Airline airline)
         {
-            var existingAirline = _airlineRepository.GetAllAirlines()
-                .Any(a => a.Name.Equals(airline.Name, StringComparison.OrdinalIgnoreCase) || a.Phone.Equals(airline.Phone, StringComparison.OrdinalIgnoreCase));
-
-            if (existingAirline)
-            {
-                return "An airline with the same name or phone already exists.";
-            }
-
+            var exists = _airlineRepository.GetAllAirlines()
+                .Any(a => a.Name.Equals(airline.Name, StringComparison.OrdinalIgnoreCase) ||
+                          a.Phone.Equals(airline.Phone, StringComparison.OrdinalIgnoreCase));
+            if (exists) return "An airline with the same name or phone already exists.";
             _airlineRepository.AddAirline(airline);
             return "Airline added successfully.";
         }
@@ -43,17 +32,12 @@ namespace ProyectoTAP.BusinessLogic
         public string UpdateAirline(int id, Airline updatedAirline)
         {
             if (!_airlineRepository.UpdateAirline(id, updatedAirline))
-            {
                 return "Airline not found.";
-            }
-
             return "Airline updated successfully.";
         }
 
         // Buscar aerolíneas por nombre o teléfono
-        public List<Airline> SearchAirline(string name = null, string phone = null)
-        {
-            return _airlineRepository.SearchAirline(name, phone);
-        }
+        public List<Airline> SearchAirline(string? name, string? phone) =>
+            _airlineRepository.SearchAirline(name, phone);
     }
 }

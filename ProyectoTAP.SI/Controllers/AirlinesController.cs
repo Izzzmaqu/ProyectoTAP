@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProyectoTAP.BusinessLogic;
+using Proyecto.BL;
 using ProyectoTAP.Model;
 
 namespace ProyectoTAP.SI.Controllers
@@ -8,11 +8,11 @@ namespace ProyectoTAP.SI.Controllers
     [Route("api/[controller]")]
     public class AirlinesController : ControllerBase
     {
-        private readonly AirlineService _airlineService;
+        private readonly IAirlineService _airlineService;
 
-        public AirlinesController()
+        public AirlinesController(IAirlineService airlineService)
         {
-            _airlineService = new AirlineService(); // Instancia del servicio de negocio
+            _airlineService = airlineService; // Instancia del servicio de negocio
         }
 
         [HttpGet]
