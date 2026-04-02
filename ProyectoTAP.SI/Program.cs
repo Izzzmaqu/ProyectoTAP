@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Proyecto.BL;
 using Proyecto.DA;
 
@@ -6,6 +7,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<DBContexto>(options =>
+    options.UseInMemoryDatabase("ProyectoTAPDb"));
 
 builder.Services.AddScoped<IAirlineRepository, AirlineRepository>();
 builder.Services.AddScoped<IAirlineService, AirlineService>();
