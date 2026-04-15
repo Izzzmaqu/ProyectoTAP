@@ -10,11 +10,13 @@ namespace ProyectoTAP.SI.Controllers
     {
         private readonly IAirlineService _airlineService;
 
+        // Constructor para inyectar el servicio de aerolíneas
         public AirlinesController(IAirlineService airlineService)
         {
             _airlineService = airlineService; // Instancia del servicio de negocio
         }
 
+        // Devuelve una lista con todas las aerolíneas registradas
         [HttpGet]
         public IActionResult GetAllAirlines()
         {
@@ -22,6 +24,7 @@ namespace ProyectoTAP.SI.Controllers
             return Ok(airlines);
         }
 
+        // Busca y devuelve una aerolínea específica utilizando su ID
         [HttpGet("{id}")]
         public IActionResult GetAirlineById(int id)
         {
@@ -33,6 +36,7 @@ namespace ProyectoTAP.SI.Controllers
             return Ok(airline);
         }
 
+        // Registra una nueva aerolínea en el sistema
         [HttpPost]
         public IActionResult AddAirline([FromBody] Airline airline)
         {
@@ -45,6 +49,7 @@ namespace ProyectoTAP.SI.Controllers
             return BadRequest(message);
         }
 
+        // Actualiza los datos de una aerolínea existente
         [HttpPut("{id}")]
         public IActionResult UpdateAirline(int id, [FromBody] Airline updatedAirline)
         {
@@ -57,6 +62,7 @@ namespace ProyectoTAP.SI.Controllers
             return BadRequest(message);
         }
 
+        // Busca aerolíneas que coincidan con el nombre o teléfono proporcionado
         [HttpGet("search")]
         public IActionResult SearchAirline([FromQuery] string? name, [FromQuery] string? phone)
         {

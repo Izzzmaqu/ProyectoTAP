@@ -10,11 +10,13 @@ namespace ProyectoTAP.SI.Controllers
     {
         private readonly IAirplaneService _airplaneService;
 
+        // Constructor que inyecta el servicio de lógica de negocio para los aviones
         public AirplanesController(IAirplaneService airplaneService)
         {
             _airplaneService = airplaneService;
         }
 
+        // Obtiene la lista completa de aviones disponibles
         [HttpGet]
         public IActionResult GetAllAirplanes()
         {
@@ -22,6 +24,7 @@ namespace ProyectoTAP.SI.Controllers
             return Ok(airplanes);
         }
 
+        // Obtiene la información detallada de un avión buscando por su ID
         [HttpGet("{id}")]
         public IActionResult GetAirplaneById(int id)
         {
@@ -33,6 +36,7 @@ namespace ProyectoTAP.SI.Controllers
             return Ok(airplane);
         }
 
+        // Permite crear y registrar un nuevo avión en el sistema
         [HttpPost]
         public IActionResult AddAirplane([FromBody] Airplane airplane)
         {
@@ -45,6 +49,7 @@ namespace ProyectoTAP.SI.Controllers
             return BadRequest(message);
         }
 
+        // Permite modificar los datos de un avión usando su ID
         [HttpPut("{id}")]
         public IActionResult UpdateAirplane(int id, [FromBody] Airplane updatedAirplane)
         {
@@ -57,6 +62,7 @@ namespace ProyectoTAP.SI.Controllers
             return BadRequest(message);
         }
 
+        // Devuelve una lista de aviones que están asignados a una aerolínea específica
         [HttpGet("by-airline/{airlineId}")]
         public IActionResult GetAirplanesByAirline(int airlineId)
         {
